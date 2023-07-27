@@ -17,7 +17,7 @@ export default function index() {
       );
       setSearchResults(decodedSearchResults);
       setType(router.query.type);
-      (router.query.type=="songs")?setSongs(decodedSearchResults.data.results):(router.query.type=="albums")?setAlbums(decodedSearchResults.data.results):(router.query.type=="artists")?setAlbums(decodedSearchResults.data.results):0;
+      (router.query.type=="songs")?setSongs(decodedSearchResults.data.results):(router.query.type=="albums")?setAlbums(decodedSearchResults.data.results):(router.query.type=="artists")?setArtists(decodedSearchResults.data.results):0;
       
     }
   }, [router.query.searchResults]);
@@ -78,17 +78,17 @@ export default function index() {
             <Link href={
                 {
                   pathname: `/artist/${artist.id}`,
-                  query: artist.id, 
+                  query: artist, 
                 }
               }>
               <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
                 <img
                   className="w-full h-48 object-contain"
                   src={artist.image[2].link}
-                  alt={artist.title}
+                  alt={artist.name}
                 />
                 <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">{artist.title}</h2>
+                  <h2 className="text-xl font-semibold mb-2">{artist.name}</h2>
                   
                 </div>
               </div>

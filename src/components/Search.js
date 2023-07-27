@@ -17,7 +17,7 @@ const Search = () => {
 
     console.log('searching');
     const encodedQuery = encodeURIComponent(query);
-    const apiUrl = `https://saavn.me/search/${searchType}?query=${encodedQuery}&page=1&limit=20`;
+    const apiUrl = `https://saavn.me/search/${searchType}?query=${encodedQuery}&page=1&limit=40`;
 
     fetch(apiUrl)
       .then((response) => response.json())
@@ -63,7 +63,7 @@ const Search = () => {
           >
             <option value="songs">Songs</option>
             <option value="albums">Albums</option>
-            <option value="playlists">Playlists</option>
+            {/* <option value="playlists">Playlists</option> */}
             <option value="artists">Artists</option>
           </select>
 

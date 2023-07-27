@@ -3,9 +3,9 @@ import { useRouter } from 'next/router'
 import Artist from '../../components/Artist';
 export default function id() {
   const router = useRouter();
-  const id = router.query;
-  console.log("hello"+id)
+  const artist = router.query;
+  console.log("hello"+artist)
   return (
-    <Artist id={id}/>
+    <Artist prop={artist}/>
   )
 }

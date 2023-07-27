@@ -8,7 +8,6 @@ export default function SingleAlbum({album}) {
             const response = await fetch(`https://saavn.me/albums?id=${album.id}`);
             const data = await response.json();
             setSongs(data.data.songs);
-            
           } catch (error) {
             console.error('Error fetching data:', error);
             setSongs([]);

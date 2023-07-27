@@ -25,7 +25,7 @@ const Search = () => {
         const encodedSearchResults = encodeURIComponent(JSON.stringify(data));
         router.push({
           pathname: '/search',
-          query: { searchResults: encodedSearchResults },
+          query: { searchResults: encodedSearchResults, type : searchType  },
         });
       })
       .catch((error) => {

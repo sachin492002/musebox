@@ -8,7 +8,7 @@ export default function index() {
   const [albums, setAlbums] = useState(null);
   const [artists, setArtists] = useState(null);
   const [songs, setSongs] = useState(null);
-
+  const [type,setType] = useState('songs');
   useEffect(() => {
     const encodedSearchResults = router.query.searchResults;
     if (encodedSearchResults) {
@@ -16,33 +16,37 @@ export default function index() {
         decodeURIComponent(encodedSearchResults)
       );
       setSearchResults(decodedSearchResults);
-      (router.query.type="songs")?setSongs(decodedSearchResults.data.results):(router.query.type="albums")?setAlbums(decodedSearchResults.data.results):(router.query.type="artists")?setAlbums(decodedSearchResults.data.results):0;
+      setType(router.query.type);
+      (router.query.type=="songs")?setSongs(decodedSearchResults.data.results):(router.query.type=="albums")?setAlbums(decodedSearchResults.data.results):(router.query.type=="artists")?setAlbums(decodedSearchResults.data.results):0;
+      
     }
   }, [router.query.searchResults]);
-  console.log(artists)
+   
   return (
      <div className="container mx-auto py-8">
       {/* Display top query */}
-      <h1 className="text-3xl font-bold mb-6">Results</h1>
+      <h1 className="text-3xl font-bold mb-6">Results {type}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {songs?.map((song) => (
-        <Link href={{
-            pathname: '/song/[id]',
-            query: { id: song.id },
-        }}>
-          <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-            <img
-              className="w-full h-48 object-contain"
-              src={song.image[2].link}
-              alt={song.name}
-            />
-            <div className="p-4">
-              <h2 className="text-xl font-semibold mb-2">{song.name}</h2>
-              <p className="text-light-1">{song.duration}</p>
-            </div>
-          </div>
-          </Link>
-        ))}
+      {
+        songs ? (songs.map((song)=>(
+            <Link href={{
+                pathname: '/song/[id]',
+                query: { id: song.id },
+            }}>
+              <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+                <img
+                  className="w-full h-48 object-contain"
+                  src={song.image[2].link}
+                  alt={song.name}
+                />
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold mb-2">{song.name}</h2>
+                  <p className="text-light-1">{song.duration}</p>
+                </div>
+              </div>
+              </Link>))
+        ):null
+     }
             
       
      {
@@ -74,7 +78,7 @@ export default function index() {
             <Link href={
                 {
                   pathname: `/artist/${artist.id}`,
-                  query: artist, 
+                  query: artist.id, 
                 }
               }>
               <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">

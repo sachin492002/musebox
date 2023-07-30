@@ -1,15 +1,24 @@
-import Search from '../components/Search'
-// import BooksByGenre from '../components/Books'
-import Albums from '../components/Albums'
-import Charts from '../components/Charts'
-import Trending from '../components/Trending'
+import Search from '../components/Search';
+import { useSelector } from 'react-redux';
+import Albums from './Albums';
+import Charts from './Charts';
+import Trending from './Trending';
+import MusicPlayer from '../components/MusicPlayer';
+import { Provider } from 'react-redux';
+import { store } from '../redux/store';
+import Sidebar from '../components/Sidebar';
 const Home = () => {
-  
-  return( <div>
-    <Search/>
-    {/* <BooksByGenre/> */}
-    <Albums/><Charts/><Trending/>
-    </div>);
+  const { activeSong } = useSelector((state) => state.player);
+  return (
+    <Provider store={store}>
+
+
+            <Trending />
+            <Charts />
+            <Albums />
+
+    </Provider>
+  );
 };
 
 export default Home;

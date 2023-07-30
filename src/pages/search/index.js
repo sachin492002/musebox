@@ -1,103 +1,64 @@
 import React,{useState,useEffect} from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import {
+  useGetSongsBySearchQuery,
+  useGetAlbumsBySearchQuery,
+  useGetArtistBySearchQuery, useGetArtistDetailsQuery, useGetArtistSongsQuery, useGetArtistAlbumsQuery
+} from '@/redux/service'
 import Artist from '../../components/Artist';
+import Loader from "@/components/Loader";
+import AlbumCard from "@/components/AlbumCard";
+import SongCard from "@/components/SongCard";
+import {GiMicrophone} from "react-icons/gi";
+import ArtistCard from "@/components/ArtistCard";
+import {useSelector} from "react-redux";
 export default function index() {
   const router = useRouter();
-  const [searchResults, setSearchResults] = useState(null);
-  const [albums, setAlbums] = useState(null);
-  const [artists, setArtists] = useState(null);
-  const [songs, setSongs] = useState(null);
-  const [type,setType] = useState('songs');
-  useEffect(() => {
-    const encodedSearchResults = router.query.searchResults;
-    if (encodedSearchResults) {
-      const decodedSearchResults = JSON.parse(
-        decodeURIComponent(encodedSearchResults)
-      );
-      setSearchResults(decodedSearchResults);
-      setType(router.query.type);
-      (router.query.type=="songs")?setSongs(decodedSearchResults.data.results):(router.query.type=="albums")?setAlbums(decodedSearchResults.data.results):(router.query.type=="artists")?setArtists(decodedSearchResults.data.results):0;
-      
-    }
-  }, [router.query.searchResults]);
-   
+  const searchTerm = router.query.searchTerm;
+  if(!searchTerm) return <Loader title={"Loading artist details..."}/>
+  const searchItem = decodeURIComponent(searchTerm);
+  const {data: artistData, isFetching:isFetchingArtistDetails} =  useGetArtistBySearchQuery(searchTerm)
+  const {data:songsData, isFetching:isFetchingArtistSongs} =  useGetSongsBySearchQuery(searchTerm)
+  const {data:albumsData, isFetching:isFetchingArtistAlbums} =  useGetAlbumsBySearchQuery(searchTerm)
+    const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
+  if (isFetchingArtistDetails || isFetchingArtistSongs || isFetchingArtistAlbums) return <Loader title={"Loading artist details..."}/>
+  const artists = artistData?.data?.results|| {};
+  const songs = songsData?.data?.results || [];
+  const albums = albumsData?.data?.results || [];
+
   return (
-     <div className="container mx-auto py-8">
-      {/* Display top query */}
-      <h1 className="text-3xl font-bold mb-6">Results {type}</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {
-        songs ? (songs.map((song)=>(
-            <Link href={{
-                pathname: '/song/[id]',
-                query: { id: song.id },
-            }}>
-              <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-                <img
-                  className="w-full h-48 object-contain"
-                  src={song.image[2].link}
-                  alt={song.name}
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">{song.name}</h2>
-                  <p className="text-light-1">{song.duration}</p>
-                </div>
-              </div>
-              </Link>))
-        ):null
-     }
-            
-      
-     {
-        albums ? (albums.map((album)=>(
-            <Link href={
-                {
-                  pathname: `/album/${album.id}`,
-                  query: album, // the data
-                }
-              }>
-              <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-                <img
-                  className="w-full h-48 object-contain"
-                  src={album.image[2].link}
-                  alt={album.title}
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">{album.title}</h2>
-                  <p className="text-gray-600">{album.artist}</p>
-                </div>
-              </div>
-              </Link>))
-        ):null
-     }
-     
-     {
-        artists ? (artists.map((artist)=>(
-            
-            <Link href={
-                {
-                  pathname: `/artist/${artist.id}`,
-                  query: artist, 
-                }
-              }>
-              <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-                <img
-                  className="w-full h-48 object-contain"
-                  src={artist.image[2].link}
-                  alt={artist.name}
-                />
-                <div className="p-4">
-                  <h2 className="text-xl font-semibold mb-2">{artist.name}</h2>
-                  
-                </div>
-              </div>
-              </Link>))
-        ):null
-     }
-      
-     
-    </div>
-    </div>
+      <div className="relative w-full flex flex-col justify-center items-center">
+        {/*<div className=" w-full bg-gradient-to-l from-transparent to-light-1 sm:h-48 h-28"/>*/}
+          <h1 className="truncate text-5xl mt-1 font-bold">Results for {searchItem}...</h1>
+        <div className="flex flex-col">
+
+          {songs ? <><h1 className="text-3xl mt-14 font-bold">Songs</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
+              {songs.map((song,i) => (
+                  <SongCard key={song?.id}
+                            song={song}
+                            isPlaying={isPlaying}
+                            activeSong={activeSong}
+                            data={songs}
+                            i={i}/>
+              ))}
+            </div></> : null}
+
+          {albums ? <><h1 className="text-3xl mt-14 font-bold">Albums</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
+              {albums.map((album) => (
+                  <AlbumCard album={album}/>
+              ))}
+            </div></> : null}
+          {artists ? <><h1 className="text-3xl mt-14 font-bold">Artists</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
+              {artists.map((artist) => (
+                  <ArtistCard artist={{id:artist.id}}/>
+              ))}
+            </div></> : null}
+
+      </div>
+      </div>
   );
 }

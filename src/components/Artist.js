@@ -1,51 +1,58 @@
 import React,{useEffect,useState} from 'react'
 import AlbumCard from '../components/AlbumCard'
 import Single from '../components/Single'
-export default function Artist({prop}){
-    const [artist,setArtist] = useState(null);
-    const [songs,setSongs] = useState(null);
-    const [albums,setAlbums] = useState(null);
-  
-    useEffect(() => {
-        Promise.all([
-            fetch(`https://saavn.me/artists?id=${prop.id}`),
-            fetch(`https://saavn.me/artists/${prop.id}/songs?page=1`),
-            fetch(`https://saavn.me/artists/${prop.id}/albums?page=1`),
-        ])
-          .then(([resArtist,resSongs, resAlbums]) => 
-            Promise.all([resArtist.json(), resSongs.json(),resAlbums.json()])
-          )
-          .then(([dataArtist,dataSongs, dataAlbums]) => {
-            setArtist(dataArtist.data);
-            setSongs(dataSongs.data.results);
-            setAlbums(dataAlbums.data.results);
-            console.log(artist)
-          });
-      }, [prop]);
-    
+import Loader from '../components/Loader';
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import {GiMicrophone} from 'react-icons/gi'
+import { useGetArtistDetailsQuery,useGetArtistSongsQuery,useGetArtistAlbumsQuery } from '../redux/service';
+import SongCard from "@/components/SongCard";
+export default function Artist({artistId}){
+
+    if(!artistId) return <Loader title={"Loading artist details..."}/>
+
+    const {data: artistData, isFetching:isFetchingArtistDetails} =  useGetArtistDetailsQuery(artistId)
+    const {data:songsData, isFetching:isFetchingArtistSongs} =  useGetArtistSongsQuery(artistId)
+    const {data:albumsData, isFetching:isFetchingArtistAlbums} =  useGetArtistAlbumsQuery(artistId)
+
+    if (isFetchingArtistDetails || isFetchingArtistSongs || isFetchingArtistAlbums) return <Loader title={"Loading artist details..."}/>
+    const artist = artistData?.data|| {};
+    const songs = songsData?.data?.results || [];
+    const albums = albumsData?.data?.results || [];
+
+
     return (
-        artist ? (
-        <div className="container mx-auto py-8">
-          <div className="mb-4">
-            <h1 className="text-3xl font-bold">{artist.name}</h1>
-          </div>
-          <h1 className="text-3xl font-bold">Top Songs</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {songs && songs.map((song) => (
-              <Single song={song}/>
+        <div className="relative w-full flex flex-col">
+            <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
+
+            <div className="absolute inset-0 flex flex-col items-center ">
+                <img
+                    alt={artist.name}
+                    src={
+                        artist.image[2].link
+                    }
+                    className="sm:w-48 w-28 sm:h-48 h-28 rounded-full object-cover border-2 shadow-xl shadow-black"
+                />
+
+                <div className="ml-2">
+                    <p className="font-bold sm:text-3xl text-xl text-dark-1">
+                        {artist.name}
+                    </p>
+                </div>
+                <div className="flex flex-row justify-between">
+                    <p className="font-extralight sm:text-2xl text-sm text-dark-1">Followers : {artist?.followerCount}</p>
+                    <p className="font-extralight flex flex-row sm:text-2xl text-sm text-dark-1 ml-8"><GiMicrophone/>{artist?.dominantLanguage}</p>
+                </div>
+            </div>
+             <h1 className="text-3xl mt-14 font-bold">Top Songs</h1>
+            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
+           {songs && songs.map((song) => (
+            <SongCard song={song}/>
             ))}
-          </div>
-          <h1 className="text-3xl font-bold">Top Albums</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {albums && albums.map((album) => (
-              <AlbumCard album={album}/>
-            ))}
-          </div>
-          
-        </div>):
-        <div className="container mx-auto py-8">
-            <h1 className="text-3xl font-bold mb-6">Loading...</h1>
+            </div>
+
         </div>
+
 
       );
 }

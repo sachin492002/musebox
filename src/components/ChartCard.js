@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link'
 export default function ChartCard({ chart }) {
-  
+
   return (
     <Link href={
       {
@@ -9,9 +9,9 @@ export default function ChartCard({ chart }) {
         query: chart,// the data
       }
     }>
-    <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
+    <div className="mx-auto w-full bg-white rounded-lg overflow-hidden shadow-lg">
       <img
-        className="w-full h-48 object-cover"
+        className="w-full  object-contain"
         src={chart.image[2].link}
         alt={chart.title}
       />

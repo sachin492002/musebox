@@ -1,25 +1,29 @@
 import React from 'react';
 import Link from 'next/link'
+import Loader from "@/components/Loader";
+import {useGetArtistDetailsQuery} from "@/redux/service";
+
 export default function ArtistCard({ artist }) {
-  
+
+  if(!artist) return <Loader title={"Loading artist details..."}/>
+
+  const {data: artistData, isFetching:isFetchingArtistDetails} =  useGetArtistDetailsQuery(artist.id)
+  if(isFetchingArtistDetails) return <Loader title={"Loading artist details..."}/>
+  console.log(artist)
   return (
     <Link href={
       {
-        pathname: `/artist/${artist.id}`,
-        query: artist, // the data
+        pathname: `/artist/${artistData?.data?.id}`,
+        query: artistData?.data, // the data
       }
     }>
-    <div className="max-w-xs mx-auto bg-white rounded-lg overflow-hidden shadow-lg">
-      <img
-        className="w-full h-48 object-cover"
-        src={artist.image[2].link}
-        alt={artist.name}
-      />
-      <div className="p-4">
-        <h2 className="text-xl font-semibold mb-2">{artist.name}</h2>
-        {/* <p className="text-gray-600">{artist.artists[0].name}</p> */}
+      <div className="flex flex-col w-1.2 justify-center animate-slideup rounded-lg cursor-pointer">
+        <img alt={artistData?.data?.image[2].link} src={artistData?.data?.image ? artistData?.data?.image[2].link : '/images.png' } className="w-full rounded-full object-contain" />
+        <p className="mt-4 font-semibold text-lg text-dark-1 p-8 truncate">
+          {artistData?.data?.name}
+        </p>
       </div>
-    </div>
+
     </Link>
   );
 }

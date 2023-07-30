@@ -6,28 +6,14 @@ import Loader from '../components/Loader';
 import Link from 'next/link'
 import SongCard from '../components/SongCard'
 import {useSelector} from 'react-redux'
+import {topCharts} from '../redux/playerSlice';
 import {useGetHomePageQuery, useGetTopChartsQuery} from '../redux/service';
 export default function Trending() {
-  const [songs ,setSongs ] = useState();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://saavn.me/playlists?id=110858205');
-        const data = await response.json();
-
-        setSongs(data.data.songs);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setSongs([]); // Handle error by setting albums to an empty array
-      }
-    };
-
-    fetchData().then(r => console.log(r));
-  }, []);
+  const {topCharts} = useSelector((state) => state.player)||[];
+  console.log(topCharts);
   const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
-
-
+  const songs = topCharts.songs
+ 
   return (
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-bold mb-6">Trending Songs...</h1>

@@ -1,5 +1,5 @@
 import React from 'react';
-import AudioPlayer from 'react-h5-audio-player';
+
 
 import Loader from '../components/Loader'
 import { useGetSongDetailsQuery} from '../redux/service'

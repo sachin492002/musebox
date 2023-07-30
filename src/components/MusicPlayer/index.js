@@ -40,7 +40,7 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     dispatch(playPause(false));
-
+     
     if (!shuffle) {
       dispatch(nextSong((currentIndex + 1) % currentSongs?.length));
     } else {

@@ -6,6 +6,7 @@ import {useGetAlbumDetailsQuery} from '../redux/service'
 import SongCard from "@/components/SongCard";
 import {GiMicrophone} from "react-icons/gi";
 import Artist from "@/components/Artist";
+import {BiTimeFive}  from 'react-icons/bi'
 import ArtistCard from "@/components/ArtistCard";
 import {useSelector } from 'react-redux';
 export default function SingleAlbum({album}) {
@@ -35,8 +36,8 @@ export default function SingleAlbum({album}) {
                     </p>
                 </div>
                 <div className="flex flex-row justify-between">
-                    <p className="font-extralight sm:text-2xl flex flex-row  text-sm text-dark-1">{data?.data?.songCount}<GiMicrophone/></p>
-                    <p className="font-extralight sm:text-2xl text-sm text-dark-1 ml-8">{data?.data?.year}</p>
+                    <p className="font-extralight sm:text-2xl flex flex-row  text-sm text-dark-1">{data?.data?.songCount}<GiMicrophone className='mt-2 mr-2'/></p>
+                    <p className="font-extralight sm:text-2xl inline-flex text-sm text-dark-1 ml-8"><BiTimeFive className='mt-2 ml-2'/>{data?.data?.year}</p>
                 </div>
             </div>
             <div className="flex flex-col">

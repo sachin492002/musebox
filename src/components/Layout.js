@@ -1,25 +1,43 @@
 import Navbar from '../components/Navbar';
 import MusicPlayer from './MusicPlayer';
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useSelector,useDispatch } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import Search from './Search';
+import {setTopCharts } from '../redux/playerSlice'
 import {useEffect, useState} from "react";
+import {useGetTopChartsQuery} from '../redux/service'
 export default function Layout({ children }) {
   const { activeSong } = useSelector((state) => state.player);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
+  const dispatch = useDispatch();
+  const [songs,setSongs] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://saavn.me/playlists?id=110858205');
+        const data = await response.json();
+        dispatch(setTopCharts(data?.data))
+        console.log(data?.data)
+        setSongs(data.data.songs);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        setSongs([]); // Handle error by setting albums to an empty array
+      }
+    };
+    fetchData().then(r => console.log(r));
+  }, []);
 
+  
   useEffect(() => {
     const handleResize = () => {
       setIsMobileScreen(window.innerWidth <= 768);
     };
 
-    // Set the initial value for isMobileScreen on the client-side
     handleResize();
 
-    // Add event listener to update isMobileScreen on window resize
     window.addEventListener('resize', handleResize);
 
-    // Clean up the event listener when the component unmounts
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -34,7 +52,6 @@ export default function Layout({ children }) {
           <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row ">
             <div className="flex-1 h-fit pb-40">
               <main>{children}</main>
-
             </div>
           </div>
         </div>

@@ -1,13 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from '@mui/material';
+
 export default function AlbumCard({ album }) {
   return (
     <Link

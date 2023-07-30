@@ -4,7 +4,7 @@ import AlbumCard from '../components/AlbumCard';
 import Loader from '../components/Loader';
 import Link from 'next/link';
 import { useGetHomePageQuery } from '../redux/service';
-import {Grid} from "@mui/material";
+
 export default function Albums() {
   const [albums, setAlbums] = useState(null);
   const { data, isFetching, error } = useGetHomePageQuery();

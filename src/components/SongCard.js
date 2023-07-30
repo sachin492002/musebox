@@ -53,7 +53,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
                     query: { id:artist },
                 }}>
                     {artists[i]} ,
-                  </Link>)}
+        </Link>)}
           
         </p>
       </div>

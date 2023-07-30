@@ -1,13 +1,11 @@
-import React,{useEffect,useState} from 'react'
-import AlbumCard from '../components/AlbumCard'
-import Single from '../components/Single'
+import React from 'react'
 import Loader from '../components/Loader';
-import Link from 'next/link'
 import {useSelector} from 'react-redux'
-import { useParams } from 'next/navigation'
 import {GiMicrophone} from 'react-icons/gi'
-import { useGetArtistDetailsQuery,useGetArtistSongsQuery,useGetArtistAlbumsQuery } from '../redux/service';
+import {useGetArtistAlbumsQuery, useGetArtistDetailsQuery, useGetArtistSongsQuery} from '../redux/service';
 import SongCard from "@/components/SongCard";
+import AlbumCard from "@/components/AlbumCard";
+
 export default function Artist({artistId}){
 
     if(!artistId) return <Loader title={"Loading artist details..."}/>
@@ -23,10 +21,10 @@ export default function Artist({artistId}){
 
 
     return (
-        <div className="relative w-full flex flex-col">
+        <div className="relative w-full flex flex-wrap flex-col">
             <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
 
-            <div className="absolute inset-0 flex flex-col items-center ">
+            <div className="absolute flex flex-col items-center ">
                 <img
                     alt={artist.name}
                     src={
@@ -55,6 +53,12 @@ export default function Artist({artistId}){
             i={i}/>
             ))}
             </div>
+                <h1 className="text-3xl mt-14 font-bold">Top Albums</h1>
+                <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
+                    {albums && albums.map((album,i) => (
+                        <AlbumCard album={album}/>
+                    ))}
+                </div>
 
         </div>
 

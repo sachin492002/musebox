@@ -5,8 +5,8 @@ const SeekbarMobile = ({ value, min, max, onInput, setSeekTime, appTime }) => {
     const getTime = (time) => `${Math.floor(time / 60)}:${(`0${Math.floor(time % 60)}`).slice(-2)}`;
 
     return (
-        <div className="sm:flex flex-row items-center">
-            <p className="text-dark-1">{value === 0 ? '0:00' : getTime(value)}</p>
+        <div className="flex flex-row items-center justify-center">
+            <p className="text-white">{value === 0 ? '0:00' : getTime(value)}</p>
             <input
                 type="range"
                 step="any"
@@ -14,7 +14,7 @@ const SeekbarMobile = ({ value, min, max, onInput, setSeekTime, appTime }) => {
                 min={min}
                 max={max}
                 onInput={onInput}
-                className="w-96 h-1 mx-4 rounded-lg"
+                className="w-60 h-1 mx-4 rounded-lg"
             />
             <p className="text-white">{max === 0 ? '0:00' : getTime(max)}</p>
         </div>

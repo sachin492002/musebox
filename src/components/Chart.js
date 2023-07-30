@@ -1,16 +1,16 @@
-import React,{useState,useEffect} from 'react'
-import Single from '../components/Single'
-import Loader from '../components/Loader';
-import Link from 'next/link'
+import React from 'react'
 
-import { useGetTopChartsQuery } from '../redux/service';
+import Loader from '../components/Loader';
+
+
+import {useGetPlaylistDetailsQuery} from '../redux/service';
 import SongCard from "@/components/SongCard";
 import {useSelector} from "react-redux";
+
 export default function Chart({chart}) {
     const chartId = chart?.id;
-
     if(!chartId) return <Loader title={"Loading charts..."}/>
-    const { data , isFetching} = useGetTopChartsQuery(chartId)
+    const { data , isFetching} = useGetPlaylistDetailsQuery(chartId)
     const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
     if (isFetching) return <Loader title={"Loading chart..."}/>
     const songs = data?.data?.songs || [];

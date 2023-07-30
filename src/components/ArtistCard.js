@@ -9,7 +9,7 @@ export default function ArtistCard({ artist }) {
 
   const {data: artistData, isFetching:isFetchingArtistDetails} =  useGetArtistDetailsQuery(artist.id)
   if(isFetchingArtistDetails) return <Loader title={"Loading artist details..."}/>
-  console.log(artist)
+
   return (
     <Link href={
       {
@@ -17,13 +17,20 @@ export default function ArtistCard({ artist }) {
         query: artistData?.data, // the data
       }
     }>
-      <div className="flex flex-col w-1.2 justify-center animate-slideup rounded-lg cursor-pointer">
-        <img alt={artistData?.data?.image[2].link} src={artistData?.data?.image ? artistData?.data?.image[2].link : '/images.png' } className="w-full rounded-full object-contain" />
-        <p className="mt-4 inset-0 font-semibold text-lg text-dark-1 p-8 truncate">
-          {artistData?.data?.name}
-        </p>
+      <div className="flex flex-col w-1.2 h-1/3  animate-slideup rounded-lg cursor-pointer">
+        <div className="relative w-full h-30 group">
+          <img
+              alt="song_img"
+              src={artistData?.data?.image ? artistData?.data?.image[2].link : '/images.png'}
+              className="w-full rounded-full object-contain"
+          />
+        </div>
+        <div className="mt-4 flex flex-col">
+          <p className="font-semibold text-lg text-dark-1 truncate">
+            {artistData?.data?.name}
+          </p>
+        </div>
       </div>
-
     </Link>
   );
 }

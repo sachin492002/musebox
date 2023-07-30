@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  openPlayer:false,
+  homepageData:null,
   topCharts:[],
   currentSongs: [],
   currentIndex: 0,
@@ -14,6 +16,13 @@ const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
+    setopenPlayer:(state,action)=>{
+      state.openPlayer = action.payload;
+    }
+    ,
+    sethomepageData:(state,action)=>{
+      state.homepageData = action.payload;
+    },
     setTopCharts: (state,action)=>{
       state.topCharts = action.payload;
     },
@@ -67,6 +76,6 @@ const playerSlice = createSlice({
   },
 });
 
-export const { setActiveSong, nextSong, prevSong, playPause, selectGenreListId , setTopCharts } = playerSlice.actions;
+export const { setActiveSong, nextSong, prevSong, playPause, selectGenreListId , setTopCharts,sethomepageData,setopenPlayer } = playerSlice.actions;
 
 export default playerSlice.reducer;

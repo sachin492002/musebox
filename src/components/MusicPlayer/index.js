@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { nextSong, prevSong, playPause } from '../../redux/playerSlice';
+'use client'
+import React, {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {usePathname, useSearchParams} from 'next/navigation'
+import {nextSong, playPause, prevSong, setopenPlayer} from '../../redux/playerSlice';
 import Controls from './Controls';
 import Player from './Player';
 import Seekbar from './Seekbar';
 import Track from './Track';
 import VolumeBar from './VolumeBar';
-import Link from "next/link";
+
 import {useRouter} from "next/router";
-import TrackMobile from "@/components/MusicPlayer/TrackMobile";
+import {BsArrowUpRightCircle} from 'react-icons/bs'
 import SeekbarMobile from "@/components/MusicPlayer/SeekbarMobile";
-import MobileControls from "@/components/MusicPlayer/MobileControls";
+
 
 const MusicPlayer = () => {
   const router = useRouter();
-  const { activeSong, currentSongs, currentIndex, isActive, isPlaying } = useSelector((state) => state.player);
+
+  const { activeSong, currentSongs, currentIndex, isActive, isPlaying ,openPlayer} = useSelector((state) => state.player);
   const [duration, setDuration] = useState(0);
   const [seekTime, setSeekTime] = useState(0);
   const [appTime, setAppTime] = useState(0);
@@ -24,13 +26,19 @@ const MusicPlayer = () => {
   const [shuffle, setShuffle] = useState(false);
   const dispatch = useDispatch();
 
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    useEffect(() => {
+        if(pathname!='/song'){
+            dispatch(setopenPlayer(false))
+        }
+    }, [pathname, searchParams])
   useEffect(() => {
     if (currentSongs?.length) dispatch(playPause(true));
   }, [currentIndex]);
 
   const handlePlayPause = () => {
     if (!isActive) return;
-
     if (isPlaying) {
       dispatch(playPause(false));
     } else {
@@ -40,7 +48,7 @@ const MusicPlayer = () => {
 
   const handleNextSong = () => {
     dispatch(playPause(false));
-     
+
     if (!shuffle) {
       dispatch(nextSong((currentIndex + 1) % currentSongs?.length));
     } else {
@@ -57,19 +65,25 @@ const MusicPlayer = () => {
       dispatch(prevSong(currentIndex - 1));
     }
   };
-  const handleClick =  () =>{
+
+  const handleClick =  (openit,e) =>{
+      e.stopPropagation();
+    if(openit){
+      dispatch(setopenPlayer(true));
     router.push({
       pathname: '/song/[id]',
       query: {id: activeSong.id},
     }).then(r  =>
-    console.log("hello"))
+    console.log("hello"))}
   }
   const isMobileScreen = window.innerWidth <= 768;
   if(!isMobileScreen)
   return (
-      <div className="relative px-8 w-full flex items-center justify-between" onClick={handleClick}>
+      <div className="relative px-8 w-full flex items-center justify-between" onClick={(e)=>handleClick(openPlayer,e)}>
+          <BsArrowUpRightCircle onClick={(e) => handleClick(true,e)} className='text-light-1 text-5xl mr-2'/>
       <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
       <div className="flex-1 flex flex-col items-center justify-center">
+
       <Controls
           isPlaying={isPlaying}
           isActive={isActive}
@@ -108,10 +122,11 @@ const MusicPlayer = () => {
     </div>)
 else {
 return(
-    <div className="relative px-8 w-full flex-col flex items-center justify-between" onClick={handleClick}>
-      <TrackMobile isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
-      <div className="flex-1 flex flex-col items-center justify-center">
-        <MobileControls
+    <div className="relative px-8 w-full flex-col flex items-center justify-between" onClick={(e)=>handleClick(openPlayer,e)}>
+     <div className='w-[20%] h-2 bg-dark-3 mt-2 rounded-full' onClick={(e) => handleClick(true,e)}></div>
+      <div className="flex-1 flex flex-row items-center  justify-between">
+        <Track isPlaying={isPlaying} isActive={isActive} activeSong={activeSong} />
+        <Controls
             isPlaying={isPlaying}
             isActive={isActive}
             repeat={repeat}
@@ -123,8 +138,7 @@ return(
             handlePrevSong={handlePrevSong}
             handleNextSong={handleNextSong}
         />
-
-        <SeekbarMobile
+      </div>      <SeekbarMobile
             value={appTime}
             min="0"
             max={duration}
@@ -143,8 +157,7 @@ return(
             onTimeUpdate={(event) => setAppTime(event.target.currentTime)}
             onLoadedData={(event) => setDuration(event.target.duration)}
         />
-      </div>
-      <VolumeBar value={volume} min="0" max="1" onChange={(event) => setVolume(event.target.value)} setVolume={setVolume} />
+
 
     </div>)}
 };

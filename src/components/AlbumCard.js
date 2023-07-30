@@ -23,8 +23,8 @@ export default function AlbumCard({ album }) {
             {album.name}
           </p>
           <p className="text-sm truncate text-gray-300 mt-1">
-            { album?.artists?.map((artist)=>
-            <Link
+            { album?.artists?.map((artist,i)=>
+            <Link key={artist.name+'hello'+i}
               href={{
                 pathname: '/artist/[id]',
                 query: artist,

@@ -1,10 +1,9 @@
 import React from 'react';
 import Link from 'next/link'
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import Loader from '../components/Loader'
-import {useGetSongDetailsQuery} from '../redux/service'
 import PlayPause from './PlayPause';
-import { playPause, setActiveSong } from '../redux/playerSlice';
+import {playPause, setActiveSong} from '../redux/playerSlice';
 
 const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   const dispatch = useDispatch();
@@ -21,7 +20,7 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
 
     dispatch(playPause(true));
   };
-  console.log(activeSong,song)
+
   return (
     <div className="flex flex-col w-1.2 h-1/3 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer">
       <div className="relative w-full h-30 group">
@@ -47,14 +46,19 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
           </Link>
         </p>
         <p className="text-sm truncate text-gray-300 mt-1">
-        {song?.primaryArtistsId &&
-                song?.primaryArtistsId.match(regex).map((artist,i) => <Link href={{
-                    pathname: '/artist/[id]',
-                    query: { id:artist },
-                }}>
-                    {artists[i]} ,
-        </Link>)}
-          
+          {song?.artists?.map((artist) => (
+              <React.Fragment key={artist.id}>
+                <Link
+                    href={{
+                      pathname: '/artist/[id]',
+                      query: artist,
+                    }}
+                >
+                  <a className="text-blue-500">{artist.name}</a>
+                </Link>
+              </React.Fragment>
+          ))}
+
         </p>
       </div>
     </div>

@@ -22,7 +22,7 @@ module.exports = {
       'light-3':'#14b8a6',
       'dark-1':'#172021',
       'dark-2':'#0f766e',
-      'dark-3':'#0f766e',
+      'dark-3':'#053a5f',
       'text-1':'#fffff',
       'text-2':'#000000',
     },

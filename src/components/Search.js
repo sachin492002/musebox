@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { FiSearch } from 'react-icons/fi';
+import React, {useState} from 'react';
+import {useRouter} from 'next/router';
+import {FiSearch} from 'react-icons/fi';
 
 const Search = () => {
   const [query, setQuery] = useState('');
-  const [searchResults, setSearchResults] = useState({});
   const router = useRouter();
 
   function handleSearch(e) {
@@ -26,10 +24,8 @@ const Search = () => {
   }
 
   return (
-    <form onSubmit={handleSearch} autoComplete="off" className="p-2 text-gray-400 focus-within:text-gray-600">
-      <label htmlFor="search-field" className="sr-only">
-        Search all files
-      </label>
+    <form onSubmit={handleSearch} autoComplete="off" className="w-[90%] md:w-full p-2 text-gray-400 focus-within:text-gray-600">
+
       <div className="flex flex-row justify-start items-center">
         <FiSearch aria-hidden="true" className="w-5 h-5 ml-4" />
         <input

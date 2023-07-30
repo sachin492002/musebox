@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 const Loader = ({ title }) => (
   <div className="w-full flex justify-center items-center flex-col">
     <img src='/loader.svg' alt="loader" className="w-32 h-32 object-contain" />

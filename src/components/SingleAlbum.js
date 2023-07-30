@@ -1,22 +1,20 @@
-import React,{useState,useEffect} from 'react'
-import Single from '../components/Single'
+import React from 'react'
 import Loader from '../components/Loader';
-import Link from 'next/link'
 import {useGetAlbumDetailsQuery} from '../redux/service'
 import SongCard from "@/components/SongCard";
 import {GiMicrophone} from "react-icons/gi";
-import Artist from "@/components/Artist";
-import {BiTimeFive}  from 'react-icons/bi'
+import {BiTimeFive} from 'react-icons/bi'
 import ArtistCard from "@/components/ArtistCard";
-import {useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
+
 export default function SingleAlbum({album}) {
     const albumId = album?.id;
-    console.log(album)
+
     if(!albumId) return <Loader title={"Loading album details..."}/>
     const {data , isFetching} = useGetAlbumDetailsQuery(albumId)
     const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
     if (isFetching) return <Loader title={"Loading album details..."}/>
-
+    console.log(process.env.NEXT_PUBLIC_API1)
     const regex = /\d+/g;
     return (
         <div className="relative w-full flex flex-col">
@@ -45,7 +43,7 @@ export default function SingleAlbum({album}) {
                 {data?.data?.primaryArtistsId != "" ? <><h1 className="text-3xl mt-28 font-bold">Artists</h1>
                 <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
                     {data?.data?.primaryArtistsId && data?.data?.primaryArtistsId.match(regex).map((artist) => (
-                        <ArtistCard artist={{id:artist}}/>
+                        <ArtistCard key= { artist?.id}artist={{id:artist}}/>
                     ))}
                 </div></> : null}
 

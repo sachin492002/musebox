@@ -1,32 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Single from '../components/Single';
+import React from 'react';
 import Loader from '../components/Loader';
-import Link from 'next/link';
-import {
-  useGetAlbumDetailsQuery,
-  useGetSongDetailsQuery,
-} from '../redux/service';
-import SongCard from '@/components/SongCard';
-import { GiMicrophone } from 'react-icons/gi';
+import {useGetSongDetailsQuery,} from '../redux/service';
+import {GiMicrophone} from 'react-icons/gi';
 import {FaLanguage} from 'react-icons/fa';
 import {AiFillPlayCircle} from 'react-icons/ai';
 import {BiSolidLabel} from 'react-icons/bi';
 import UseAnimations from 'react-useanimations';
 import download from 'react-useanimations/lib/download'
-import Artist from '@/components/Artist';
 import ArtistCard from '@/components/ArtistCard';
-import AlbumCard from '@/components/AlbumCard';
-import SingleAlbum from '@/components/Chart';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 
 export default function SingleSong({ song, isPlaying, activeSong }) {
   const router = useRouter();
-  if(activeSong?.id!=song.song){
+  if(activeSong.id && activeSong?.id!=song.song){
     song.song = activeSong.id
   }
   console.log(song.song);
-  if (!song.song) return <Loader title={'Loading album details...'} />;
+  if (!song.song) return <Loader title={'Loading song details...'} />;
   const { data, isFetching, error } = useGetSongDetailsQuery(song.song);
   console.log(data);
   if (isFetching || error) return <Loader title={'Loading song details...'} />;
@@ -51,18 +41,18 @@ export default function SingleSong({ song, isPlaying, activeSong }) {
     const filename = songd?.name;
     if (downloadUrl && filename) {
       downloadSong(downloadUrl, filename);
-    } 
+    }
 }
   return (
-    <div className="relative w-full flex flex-col mt-8 ">
+    <div className="relative flex w-full flex-col mt-8">
       {/* <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" /> */}
-      <div className="flex flex-col sm:flex-row inset-0 items-center justify-center space-x-24 ">
+      <div className="flex flex-col md:flex-row inset-0 items-center justify-center md:space-x-24 ">
         <img
           alt="/loader.svg"
           src={songd.image[2]?.link}
-          className="sm:w-48 w-28 sm:h-48 h-28 rounded-full animate-[spin_3s_linear_infinite] object-contain border-2 shadow-xl shadow-black"
+          className="w-80  h-80 md:h-28 md:w-28 rounded-full animate-[spin_3s_linear_infinite] object-contain border-2 shadow-xl shadow-black"
         />
-       
+
         <UseAnimations animation={download} size={56} strokeColor='#172021' fillColor='#172021' size={130} loop autoplay onClick={handleDownloadClick}/>
          <div className="flex flex-col items-center justify-between">
         <div className="ml-2">
@@ -75,7 +65,7 @@ export default function SingleSong({ song, isPlaying, activeSong }) {
           <p className="font-extralight sm:text-2xl inline-flex  text-sm text-dark-2">
           <FaLanguage className='mr-2 mt-2'/>
             {songd?.language}
-            
+
           </p>
           <p className="font-extralight inline-flex sm:text-2xl text-sm text-dark-2 ml-8">
             {songd?.playCount}<AiFillPlayCircle className='mr-2 mt-1'/>
@@ -84,7 +74,7 @@ export default function SingleSong({ song, isPlaying, activeSong }) {
         <div className="flex flex-col items-center justify-between">
           <p className="font-extralight sm:text-2xl inline-flex  text-sm text-dark-2">
           <GiMicrophone className='mr-2 mt-2' />{songd?.year}
-            
+
           </p>
           <p className="font-extralight sm:text-2xl inline-flex text-sm text-dark-2 ml-8">
           <BiSolidLabel className='mr-2 mt-1'/>{songd?.label}
@@ -93,14 +83,14 @@ export default function SingleSong({ song, isPlaying, activeSong }) {
       </div>
     </div>
       <div className="flex flex-col mt-1">
-        {songd?.primaryArtistsId != '' ? (
+        {songd?.primaryArtistsId !== '' ? (
           <>
             <h1 className="text-3xl mt-14 font-bold">Artists</h1>
-            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4 cursor-pointer">
+            <div className="grid grid-cols-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4 cursor-pointer mt-2">
               {songd?.primaryArtistsId &&
                 songd?.primaryArtistsId
                   .match(regex)
-                  .map((artist) => <ArtistCard artist={{ id: artist }} />)}
+                  .map((artist) => <ArtistCard key={artist?.id } artist={{ id: artist }} />)}
             </div>
           </>
         ) : null}

@@ -6,7 +6,7 @@ const SeekbarMobile = ({ value, min, max, onInput, setSeekTime, appTime }) => {
 
     return (
         <div className="sm:flex flex-row items-center">
-            <p className="text-white">{value === 0 ? '0:00' : getTime(value)}</p>
+            <p className="text-dark-1">{value === 0 ? '0:00' : getTime(value)}</p>
             <input
                 type="range"
                 step="any"

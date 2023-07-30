@@ -3,6 +3,7 @@ import AlbumCard from '../components/AlbumCard'
 import Single from '../components/Single'
 import Loader from '../components/Loader';
 import Link from 'next/link'
+import {useSelector} from 'react-redux'
 import { useParams } from 'next/navigation'
 import {GiMicrophone} from 'react-icons/gi'
 import { useGetArtistDetailsQuery,useGetArtistSongsQuery,useGetArtistAlbumsQuery } from '../redux/service';
@@ -14,7 +15,7 @@ export default function Artist({artistId}){
     const {data: artistData, isFetching:isFetchingArtistDetails} =  useGetArtistDetailsQuery(artistId)
     const {data:songsData, isFetching:isFetchingArtistSongs} =  useGetArtistSongsQuery(artistId)
     const {data:albumsData, isFetching:isFetchingArtistAlbums} =  useGetArtistAlbumsQuery(artistId)
-
+    const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
     if (isFetchingArtistDetails || isFetchingArtistSongs || isFetchingArtistAlbums) return <Loader title={"Loading artist details..."}/>
     const artist = artistData?.data|| {};
     const songs = songsData?.data?.results || [];
@@ -46,8 +47,12 @@ export default function Artist({artistId}){
             </div>
              <h1 className="text-3xl mt-14 font-bold">Top Songs</h1>
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
-           {songs && songs.map((song) => (
-            <SongCard song={song}/>
+           {songs && songs.map((song,i) => (
+            <SongCard song={song}
+            isPlaying={isPlaying}
+            activeSong={activeSong}
+            data={songs}
+            i={i}/>
             ))}
             </div>
 

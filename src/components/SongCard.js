@@ -10,7 +10,8 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
   const dispatch = useDispatch();
     // const songid = song?.id;
     if(!song) return <Loader title={"Loading song details..."}/>
-
+    const regex = /\d+/g;
+    const artists = song?.primaryArtists?.split(',') || [];
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
@@ -46,13 +47,14 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
           </Link>
         </p>
         <p className="text-sm truncate text-gray-300 mt-1">
-
-          <Link href={{
-            pathname: '/artist/[id]',
-            query: { id:song?.primaryArtistsId },
-        }}>
-            {song?.primaryArtists}
-          </Link>
+        {song?.primaryArtistsId &&
+                song?.primaryArtistsId.match(regex).map((artist,i) => <Link href={{
+                    pathname: '/artist/[id]',
+                    query: { id:artist },
+                }}>
+                    {artists[i]} ,
+                  </Link>)}
+          
         </p>
       </div>
     </div>

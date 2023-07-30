@@ -7,19 +7,20 @@ import SongCard from "@/components/SongCard";
 import {GiMicrophone} from "react-icons/gi";
 import Artist from "@/components/Artist";
 import ArtistCard from "@/components/ArtistCard";
+import {useSelector } from 'react-redux';
 export default function SingleAlbum({album}) {
     const albumId = album?.id;
     console.log(album)
     if(!albumId) return <Loader title={"Loading album details..."}/>
     const {data , isFetching} = useGetAlbumDetailsQuery(albumId)
+    const { activeSong, isPlaying } = useSelector((state) => state.player)|| {};
     if (isFetching) return <Loader title={"Loading album details..."}/>
 
     const regex = /\d+/g;
     return (
         <div className="relative w-full flex flex-col">
-            <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
-
-            <div className="absolute inset-0 flex flex-col items-center ">
+            {/* <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" /> */}
+            <div className="inset-0 flex flex-col items-center ">
                 <img
                     alt={data?.data?.name}
                     src={
@@ -50,8 +51,13 @@ export default function SingleAlbum({album}) {
             </div>
             <h1 className="text-3xl mt-14 font-bold">Top Songs</h1>
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
-                {data?.data?.songs && data?.data?.songs.map((song) => (
-                    <SongCard song={song}/>
+                {data?.data?.songs && data?.data?.songs.map((song,i) => (
+                    <SongCard key={song?.id}
+                    song={song}
+                    isPlaying={isPlaying}
+                    activeSong={activeSong}
+                    data={data?.data?.songs}
+                    i={i}/>
                 ))}
             </div>
             </div>

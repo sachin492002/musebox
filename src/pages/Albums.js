@@ -14,9 +14,9 @@ export default function Albums() {
           <h1 className="text-3xl font-bold mb-6">Top Albums...</h1>
           <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-2">
 
-          {data.data.albums.map((album, i) => (
+          {data?.data?.albums.map((album, i) => (
               <AlbumCard
-                  key={album.id}
+                  key={album?.id}
                   album={album}
               />
           ))}

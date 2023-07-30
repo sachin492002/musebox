@@ -19,7 +19,7 @@ export default function ArtistCard({ artist }) {
     }>
       <div className="flex flex-col w-1.2 justify-center animate-slideup rounded-lg cursor-pointer">
         <img alt={artistData?.data?.image[2].link} src={artistData?.data?.image ? artistData?.data?.image[2].link : '/images.png' } className="w-full rounded-full object-contain" />
-        <p className="mt-4 font-semibold text-lg text-dark-1 p-8 truncate">
+        <p className="mt-4 inset-0 font-semibold text-lg text-dark-1 p-8 truncate">
           {artistData?.data?.name}
         </p>
       </div>

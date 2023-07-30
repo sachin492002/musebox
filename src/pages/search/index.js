@@ -54,6 +54,7 @@ export default function index() {
           {artists ? <><h1 className="text-3xl mt-14 font-bold">Artists</h1>
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
               {artists.map((artist) => (
+                
                   <ArtistCard artist={{id:artist.id}}/>
               ))}
             </div></> : null}

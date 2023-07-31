@@ -50,8 +50,7 @@ export default function Layout({ children }) {
           <Sidebar/>
           <div className='flex flex-col flex-1'>
             <Search />
-            <div className="px-6 h-[calc(100vh-90px)] lg:h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row ">
-
+            <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row ">
               <div className="flex-1  h-fit pb-40">
               <main>{children}</main>
               </div>
@@ -60,7 +59,7 @@ export default function Layout({ children }) {
         </div>
         {activeSong?.name && (
             isMobileScreen ?
-                <div className="absolute h-32  bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-light-1 backdrop-blur-lg rounded-t-3xl ">
+                <div className="fixed bottom-0 left-0 right-0 h-32 z-10 animate-slideup bg-gradient-to-br from-white/10 to-light-1 backdrop-blur-lg rounded-t-3xl ">
                   <MusicPlayer />
                 </div>: <div className="absolute h-28  bottom-0 left-0 right-0 flex animate-slideup bg-gradient-to-br from-white/10 to-light-1 backdrop-blur-lg rounded-t-3xl z-10">
                   <MusicPlayer />

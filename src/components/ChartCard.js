@@ -18,7 +18,7 @@ export default function ChartCard({ chart }) {
         alt={chart.title}
       />
       <div className="p-4">
-        <h2 className="truncate text-xl font-semibold mb-2">{ (chart.name) ?chart?.name :chart?.title }</h2>
+        <h2 className="truncate text-sm md:text-xl  font-semibold mb-2">{ (chart.name) ?chart?.name :chart?.title }</h2>
       </div>
     </div>
     </Link>

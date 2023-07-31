@@ -24,7 +24,7 @@ export default function Artist({artistId}){
         <div className="relative w-full flex flex-wrap flex-col">
             <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" />
 
-            <div className="absolute flex flex-col items-center ">
+            <div className="absolute flex flex-col inset-0 items-center ">
                 <img
                     alt={artist.name}
                     src={
@@ -43,7 +43,7 @@ export default function Artist({artistId}){
                     <p className="font-extralight flex flex-row sm:text-2xl text-sm text-dark-1 ml-8"><GiMicrophone/>{artist?.dominantLanguage}</p>
                 </div>
             </div>
-             <h1 className="text-3xl mt-14 font-bold">Top Songs</h1>
+             <h1 className="text-3xl mt-14 mb-5 font-bold">Top Songs</h1>
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
            {songs && songs.map((song,i) => (
             <SongCard song={song}
@@ -53,7 +53,7 @@ export default function Artist({artistId}){
             i={i}/>
             ))}
             </div>
-                <h1 className="text-3xl mt-14 font-bold">Top Albums</h1>
+                <h1 className="text-3xl mt-14 mb-5 font-bold">Top Albums</h1>
                 <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
                     {albums && albums.map((album,i) => (
                         <AlbumCard album={album}/>

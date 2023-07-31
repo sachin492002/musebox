@@ -25,7 +25,7 @@ export default function ArtistCard({ artist }) {
               className="w-full rounded-full object-contain"
           />
         </div>
-        <div className="mt-4 flex flex-col">
+        <div className="mt-4 flex flex-col justify-center items-center">
           <p className="font-semibold text-lg text-dark-1 truncate">
             {artistData?.data?.name}
           </p>

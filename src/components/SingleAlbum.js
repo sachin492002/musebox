@@ -19,7 +19,7 @@ export default function SingleAlbum({album}) {
     return (
         <div className="relative w-full flex flex-col">
             {/* <div className="w-full bg-gradient-to-l from-transparent to-black sm:h-48 h-28" /> */}
-            <div className="inset-0 flex flex-col items-center ">
+            <div className="inset-0 flex flex-col items-center justify-center">
                 <img
                     alt={data?.data?.name}
                     src={
@@ -28,7 +28,7 @@ export default function SingleAlbum({album}) {
                     className="sm:w-48 w-28 sm:h-48 h-28 rounded-full object-cover border-2 shadow-xl shadow-black"
                 />
 
-                <div className="ml-2">
+                <div className="ml-11 mr-11">
                     <p className="font-bold sm:text-3xl text-xl text-dark-1">
                         {data?.data?.name}
                     </p>
@@ -40,7 +40,7 @@ export default function SingleAlbum({album}) {
             </div>
             <div className="flex flex-col">
 
-                {data?.data?.primaryArtistsId != "" ? <><h1 className="text-3xl mt-28 font-bold">Artists</h1>
+                {data?.data?.primaryArtistsId != "" ? <><h1 className="text-3xl mt-20 mb-6 font-bold">Artists</h1>
                 <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
                     {data?.data?.primaryArtistsId && data?.data?.primaryArtistsId.match(regex).map((artist) => (
                         <ArtistCard key= { artist?.id}artist={{id:artist}}/>
@@ -48,7 +48,7 @@ export default function SingleAlbum({album}) {
                 </div></> : null}
 
             </div>
-            <h1 className="text-3xl mt-14 font-bold">Top Songs</h1>
+            <h1 className="text-3xl mt-14 mb-6 font-bold">Top Songs</h1>
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4 gap-4">
                 {data?.data?.songs && data?.data?.songs.map((song,i) => (
                     <SongCard key={song?.id}

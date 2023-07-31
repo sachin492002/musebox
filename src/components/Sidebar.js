@@ -15,7 +15,7 @@ import Link from 'next/link'
 const links = [
   { name: 'Home', href : '/', icon: HiOutlineHome },
   { name: 'Trending', href : '/Trending', icon: FiTrendingUp },
-    {name:'Top Playlists',href:'playlists',icon:BiSolidPlaylist},
+    {name:'Top Playlists',href:'/playlists',icon:BiSolidPlaylist},
   { name: 'Albums', href : '/Albums', icon: RiAlbumFill },
   { name: 'Top Charts', href : '/Charts', icon: HiOutlineChartSquareBar },
   { name: 'About', href : '/about', icon: FcAbout },

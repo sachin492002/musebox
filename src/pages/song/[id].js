@@ -1,6 +1,5 @@
-import React,{useState,useEffect} from 'react';
-import Single from '../../components/Single';
-import { useRouter } from 'next/router'
+import React, {useState} from 'react';
+import {useRouter} from 'next/router'
 import SingleSong from "@/components/SingleSong";
 import {useSelector} from 'react-redux'
 

@@ -7,7 +7,6 @@ import {
   useGetSongsBySearchQuery
 } from '@/redux/service'
 import Loader from "@/components/Loader";
-import {useSelector} from "react-redux";
 import SearchResults from "@/components/SearchResults";
 
 export default function index() {

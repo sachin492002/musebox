@@ -50,7 +50,7 @@ export default function Layout({ children }) {
           <Sidebar/>
           <div className='flex flex-col flex-1'>
             <Search />
-            <div className="px-6 h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row ">
+            <div className="px-6 h-[calc(100vh-90px)] lg:h-[calc(100vh-72px)] overflow-y-scroll hide-scrollbar flex xl:flex-row ">
 
               <div className="flex-1  h-fit pb-40">
               <main>{children}</main>

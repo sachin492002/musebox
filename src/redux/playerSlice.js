@@ -16,6 +16,7 @@ const playerSlice = createSlice({
   name: 'player',
   initialState,
   reducers: {
+  
     setopenPlayer:(state,action)=>{
       state.openPlayer = action.payload;
     }

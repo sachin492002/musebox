@@ -58,7 +58,6 @@ const SongCard = ({ song, isPlaying, activeSong, data, i }) => {
                 </Link>
               </React.Fragment>
           ))}
-
         </p>
       </div>
     </div>

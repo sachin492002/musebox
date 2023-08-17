@@ -2,6 +2,7 @@ import MusicPlayer from './MusicPlayer';
 import {useDispatch, useSelector} from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import Search from './Search';
+import VideoPlayer from '../components/VideoPlayer';
 import {sethomepageData, setTopCharts} from '../redux/playerSlice'
 import {useEffect, useState} from "react";
 
@@ -9,8 +10,8 @@ export default function Layout({ children }) {
   const { activeSong } = useSelector((state) => state.player);
   const [isMobileScreen, setIsMobileScreen] = useState(false);
   const dispatch = useDispatch();
-
-
+  const [loading ,setloading] = useState(true);
+  
   useEffect(() => {
 
     const fetchData = async () => {
@@ -21,6 +22,9 @@ export default function Layout({ children }) {
         const response1 = await fetch(`${process.env.NEXT_PUBLIC_API1}modules?language=hindi,english,haryanvi`);
         const data1= await response1.json();
         dispatch(sethomepageData(data1?.data));
+        setTimeout(() => {
+          setloading(false);
+        }, 10000);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -43,7 +47,10 @@ export default function Layout({ children }) {
     };
   }, []);
   return (
+
     <>
+    {loading && <VideoPlayer videoSrc="/loader.mp4"/>}
+  {!loading&&
       <div className="relative flex flex-row w-full">
 
         <div className="flex-1 flex flex-row bg-gradient-to-br from-white/30 to-light-1 dark:to-dark-2 backdrop-blur-lg">
@@ -66,7 +73,7 @@ export default function Layout({ children }) {
                 </div>
         )}
       </div>
-
+}
     </>
   );
 }

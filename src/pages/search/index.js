@@ -24,7 +24,7 @@ export default function index() {
       return;
     }
     const searchItem = decodeURIComponent(searchTerm);
-
+    
     async function fetchAllPages(type, searchTerm, page = 1, limit = 20) {
       const url = `${process.env.NEXT_PUBLIC_API2}search/${type}?query=${searchTerm}&page=${page}&limit=${limit}`;
       const response = await fetch(url);
@@ -39,10 +39,6 @@ export default function index() {
       } else if (type === 'artists') {
         setArtists((prevArtists) => [...prevArtists, ...data?.data?.results]);
       }
-
-      if (data?.data?.total - 20 * page >= 0) {
-        await fetchAllPages(type, searchTerm, page + 1, limit);
-      }
     }
 
     async function fetchData() {
@@ -52,10 +48,8 @@ export default function index() {
         fetchAllPages('playlists', searchTerm),
         fetchAllPages('artists', searchTerm),
       ]);
-
       setIsLoading(false);
     }
-
     fetchData();
   }, [searchTerm]);
 

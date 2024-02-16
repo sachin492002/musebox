@@ -2,9 +2,10 @@ import MusicPlayer from './MusicPlayer';
 import {useDispatch, useSelector} from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import Search from './Search';
-import VideoPlayer from '../components/VideoPlayer';
+
 import {sethomepageData, setTopCharts} from '../redux/playerSlice'
 import {useEffect, useState} from "react";
+import Preloader from './Preloader';
 
 export default function Layout({ children }) {
   const { activeSong } = useSelector((state) => state.player);
@@ -49,7 +50,7 @@ export default function Layout({ children }) {
   return (
 
     <>
-    {loading && <VideoPlayer videoSrc="/loader.mp4"/>}
+    {loading && <Preloader/>}
   {!loading&&
       <div className="relative flex flex-row w-full">
 

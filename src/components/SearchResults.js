@@ -19,7 +19,7 @@ export default function SearchResults({data}){
     const { activeSong, isPlaying } = useSelector((state) => state.player) || {};
   
     const cardsPerPage = 20;
-  
+     console.log(data);
     // Separate states for each category
     const [songPage, setSongPage] = useState(1);
     const [albumPage, setAlbumPage] = useState(1);
@@ -27,42 +27,15 @@ export default function SearchResults({data}){
     const [artistPage, setArtistPage] = useState(1);
   
     // Slice the data based on the current page for each category
-    const songs = songsData.slice(0, (songPage * cardsPerPage)-1);
-    const albums = albumsData.slice(0, (albumPage * cardsPerPage)-1);
-    const playlists = playlistsData.slice(0, (playlistPage * cardsPerPage)-1);
-    const artists = artistsData.slice(0, (artistPage * cardsPerPage)-1);
+    const songs = songsData;
+    const albums = albumsData;
+    const playlists = playlistsData;
+    const artists = artistsData;
   
-    const handleShowMoreSongs = () => {
-      setSongPage(songPage + 1);
-    };
+    
   
-    const handleShowLessSongs = () => {
-      setSongPage(1);
-    };
+    
   
-    const handleShowMoreAlbums = () => {
-      setAlbumPage(albumPage + 1);
-    };
-  
-    const handleShowLessAlbums = () => {
-      setAlbumPage(1);
-    };
-  
-    const handleShowMorePlaylists = () => {
-      setPlaylistPage(playlistPage + 1);
-    };
-  
-    const handleShowLessPlaylists = () => {
-      setPlaylistPage(1);
-    };
-  
-    const handleShowMoreArtists = () => {
-      setArtistPage(artistPage + 1);
-    };
-  
-    const handleShowLessArtists = () => {
-      setArtistPage(1);
-    };
 
     return (
         <div className="relative w-full flex flex-wrap flex-col">
@@ -92,10 +65,7 @@ export default function SearchResults({data}){
                 {albums && albums.map((album,i) => (
                     <AlbumCard album={album}/>
                 ))}
-                {albumsData.length > cardsPerPage && albumPage * cardsPerPage < albumsData.length && (<div className="flex w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowMoreAlbums}>
-                <div className="relative w-full  flex justify-center items-center group"> <div className='absolute  bg-black bg-opacity-50 animate-bounce'><img className='hi h-28' src='/showmore.png'/></div></div></div>)}
-      {albumPage * cardsPerPage > albumsData.length && (<div className="flex flex-col w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowLessAlbums}>
-      <div className="relative w-full h-28 group"> <div className='absolute inset-0 justify-center items-center bg-black bg-opacity-50'><img  src='https://static.thenounproject.com/png/541015-200.png'/></div></div></div>)}
+               
             </div></>}
             
             {playlists.length>0 &&<>
@@ -104,10 +74,7 @@ export default function SearchResults({data}){
                 {playlists && playlists?.map((playlist,i) => (
                     <ChartCard chart={playlist}/>
                 ))}
-                {playlistsData.length > cardsPerPage && playlistPage * cardsPerPage < playlistsData.length && (<div className="flex w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowMorePlaylists}>
-                <div className="relative w-full  flex justify-center items-center group"> <div className='absolute  bg-black bg-opacity-50 animate-bounce'><img className='hi h-28' src='/showmore.png'/></div></div></div>)}
-      {playlistPage * cardsPerPage > playlistsData.length && (<div className="flex flex-col w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowLessPlaylists}>
-      <div className="relative w-full h-28 group"> <div className='absolute inset-0 justify-center items-center bg-black bg-opacity-50'><img  src='https://static.thenounproject.com/png/541015-200.png'/></div></div></div>)}
+               
             </div></>}
            
             {
@@ -117,10 +84,6 @@ export default function SearchResults({data}){
                 {artists && artists.map((artist,i) => (
                     <ArtistCard artist={artist}/>
                 ))}
-                {artistsData.length > cardsPerPage && artistPage * cardsPerPage < artistsData.length && (<div className="flex w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowMoreArtists}>
-                <div className="relative w-full  flex justify-center items-center group"> <div className='absolute  bg-black bg-opacity-50 animate-bounce'><img className='hi h-28' src='/showmore.png'/></div></div></div>)}
-      {artistPage * cardsPerPage > artistsData.length && artistPage > 1&& (<div className="flex flex-col w-1.2 h-60 p-1 bg-white/5 bg-opacity-80 backdrop-blur-sm animate-slideup rounded-lg cursor-pointer" onClick={handleShowLessArtists}>
-      <div className="relative w-full h-28 group"> <div className='absolute inset-0 justify-center items-center bg-black bg-opacity-50'><img  src='https://static.thenounproject.com/png/541015-200.png'/></div></div></div>)}
             </div></>}
         </div>
     )
